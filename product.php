@@ -1,11 +1,16 @@
-<?php 
+<?php
 
 include 'partials/_cart.php';
+include 'partials/_db_test.php';
+$sql = 'SELECT * FROM `products`';
+$result = mysqli_query($conn, $sql);
+$num = mysqli_num_rows($result);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,58 +19,38 @@ include 'partials/_cart.php';
     <title>Products</title>
 </head>
 <body>
-<?php require 'partials/_nav.php'?>
+<?php require 'partials/_nav.php'; ?>
 
 <div class="container py-4" >
-<div class='row'>
-<div class='col-md-4'>
-         <form action="product.php" method="post" >
-            <div class="card" style="width: 18rem;">
-            <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" class="card-img-top" alt="img">
-            <div class="card-body">
-                <h5 class="card-title">Product 1</h5>
-                <p class="card-text">Price - 500</p>
+    <div class='row'>
+
+<?php if ($num > 0) {
+  while ($row = mysqli_fetch_array($result)) {
+    echo "
+        <div class='col-md-4'>
+         <form  method='post' >
+            <div class='card' style='width: 18rem;'>
+            <img src='https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260' class='card-img-top' alt='img'>
+            <div class='card-body'>
+                <h5 class='card-title'>$row[title]</h5>
+                <p class='card-text'>$row[price]tk</p>
                 <button type='submit'
                 name='add_to_cart'
-                class="btn btn-info">Add to cart</button>
-                <input type="hidden" name="item_name" value='Bag 1'>
-                <input type="hidden" name="item_price" value='500'>
+                class='btn btn-info'>Add to cart</button>
+                <input type='hidden' name='item_name' value=$row[title]>
+                <input type='hidden' name='item_price' value=$row[price]>
             </div>
             </div>
          </form>
-</div>
-<div class='col-md-4'>
-         <form action="product.php" method="post">
-            <div class="card" style="width: 18rem;">
-            <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" class="card-img-top" alt="img">
-            <div class="card-body">
-                <h5 class="card-title">Product 2</h5>
-                <p class="card-text">Price- 500</p>
-                <button type='submit'
-                name='add_to_cart'
-                class="btn btn-info">Add to cart</button>
-                <input type="hidden" name="item_name" value='Bag 2'>
-                <input type="hidden" name="item_price" value='400'>
-            </div>
-            </div>
-         </form>
-</div>
-<div class='col-md-4'>
-         <form action="product.php" method="post">
-            <div class="card" style="width: 18rem;">
-            <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" class="card-img-top" alt="img">
-            <div class="card-body">
-                <h5 class="card-title">Product 3</h5>
-                <p class="card-text">Price- 500</p>
-                <button type='submit'
-                name='add_to_cart'
-                class="btn btn-info">Add to cart</button>
-                <input type="hidden" name="item_name" value='Bag 3'>
-                <input type="hidden" name="item_price" value='600'>
-            </div>
-            </div>
-         </form>
-</div>
+        </div>
+        
+        ";
+  }
+} ?>
+
+
+
+
 </div>
 </div>
 
